@@ -1,4 +1,6 @@
 #include<iostream>
+#include<vector>
+#include<string>
 #include<cctype>
 using namespace std;
 
@@ -29,7 +31,7 @@ class Account {
 
 
 
-                        void currentAccountBalanceUpdate(double amount) {
+                        void adjustBalance(double amount) {
 
                                     if(amount <= 0) {
 
@@ -195,6 +197,9 @@ class SavingAccount : public Account {
 
 
 
+
+
+
 class CurrentAccount : public Account {
 
     private :
@@ -218,12 +223,12 @@ class CurrentAccount : public Account {
 
                  if(totalDeduction <= (getBalance() + overdraftLimit)) {
 
+                            adjustBalance(totalDeduction);
 
-                            double finalAmount = getBalance() - totalDeduction ;
+                 }else {
 
-                            cout << finalAmount << endl;
-
-                            currentAccountBalanceUpdate(finalAmount);
+                            cout << "Overdraft limit exceeded\n";
+                            
 
                  }
 
@@ -246,18 +251,171 @@ class CurrentAccount : public Account {
 };
 
 
+
+void Menu()  {
+
+
+                    cout << "\n========== BANK MANAGEMENT SYSTEM ==========\n";
+
+                    cout << "1. Create Saving Account\n";
+                    cout << "2. Create Current Account\n";
+
+                    cout << "3. Deposit Money\n";
+                    cout << "4. Withdraw Money\n";
+
+                    cout << "5. Search Account\n";
+                    cout << "6. Display Account Details\n";
+                    cout << "7. Display All Accounts\n";
+
+                    cout << "8. Transfer Money\n";
+
+                    cout << "9. Exit\n";
+
+                
+                    cout << "\nEnter Your Choice : ";
+
+                 
+
+}
+
+
 int main () {
+ 
+    vector<Account *> accounts;
 
-CurrentAccount c("Naman",3534,5000,20,10000);
+    while(true) {
+        
+            Menu();
 
-c.withdraw(12000.0);
+            int choice ;
+
+            cin>>choice;
+
+            if(choice == 1) {
+
+                     string accountHolderName;
+
+                        cin.ignore();
+
+                        cout << "Enter Account Holder Name: ";
+                        getline(cin, accountHolderName);
+
+                        ll accountNumber;
+
+                        cout << "Enter Account Number: ";
+                        cin >> accountNumber;
+
+                        double accountBalance;
+
+                        cout << "Enter Initial Balance: ";
+                        cin >> accountBalance;
+
+                        double interestRate;
+
+                        cout << "Enter Interest Rate: ";
+                        cin >> interestRate;
+
+                        double minimumBalance;
+
+                        cout << "Enter Minimum Balance: ";
+                        cin >> minimumBalance;
 
 
-c.display();
-c.deposit(2040);
+                    accounts.push_back(new SavingAccount (
 
-c.display();
+                            accountHolderName,
+                            accountNumber,
+                            accountBalance,
+                            interestRate,
+                            minimumBalance
 
+             
+                        ));
+                     
+                        cout << "Size = " << accounts.size() << endl;
+
+            }
+
+            else if(choice == 2) {
+
+
+                      string accountHolderName;
+
+                        cin.ignore();
+
+                        cout << "Enter Account Holder Name: ";
+                        getline(cin, accountHolderName);
+
+                        ll accountNumber;
+
+                        cout << "Enter Account Number: ";
+                        cin >> accountNumber;
+
+                        double accountBalance;
+
+                        cout << "Enter Initial Balance: ";
+                        cin >> accountBalance;
+
+                        double transactionFee;
+
+                        cout << "Enter transactionFee: ";
+                        cin >> transactionFee;
+
+                        double overdraftLimit;
+
+                        cout << "Enter overdraftLimit: ";
+                        cin >> overdraftLimit;
+
+
+
+
+                        accounts.push_back(new CurrentAccount(
+
+                                    accountHolderName,
+                                    accountNumber,
+                                    accountBalance,
+                                    transactionFee,
+                                    overdraftLimit
+
+
+
+                        ));
+
+
+
+
+            }
+     
+            else if(choice == 7) {
+
+
+                 cout << "Inside Choice 7\n";
+
+    cout << "Size = "
+         << accounts.size()
+         << endl;
+
+
+                    for(Account *acc : accounts) {
+
+                            acc->display();
+
+                            cout << endl;
+
+                    }
+
+
+            }
+            else if (choice == 9) {
+
+                    break;
+
+            }
+
+
+
+    }
+    
 
  return 0 ;
 
