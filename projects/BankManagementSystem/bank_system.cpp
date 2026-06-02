@@ -2,16 +2,14 @@
 #include<vector>
 #include<string>
 #include<cctype>
-using namespace std;
-
-using  ll = long long ;
+using ll = long long ;
 
 class Account {
 
     private:
             double accountBalance ;
     protected :
-            string accountHolderName;
+            std::string accountHolderName;
             ll accountNumber;
 
                         void updateBalance(double amount ) {
@@ -23,7 +21,7 @@ class Account {
                              }
                              else {
 
-                                    cout << "Insufficient balace\n";
+                                    std::cout << "Insufficient balace\n";
 
                              }
                         
@@ -47,7 +45,7 @@ class Account {
 
     public :    
 
-            Account (string holderName , ll accountNumber  , double accountbalance ){
+            Account (std::string holderName , ll accountNumber  , double accountbalance ){
 
                 bool isValid = true ;
 
@@ -75,7 +73,7 @@ class Account {
                      
                        this->accountHolderName = "";
 
-                        cout << "Invalid Account Name. Only Alphabets and Space Allowed ..." << endl;
+                        std::cout << "Invalid Account Name. Only Alphabets and Space Allowed ..." << std::endl;
 
                 }
 
@@ -88,7 +86,7 @@ class Account {
 
                         this->accountNumber = 0;
 
-                        cout << "Invalid account number\n";
+                        std::cout << "Invalid account number\n";
 
                 }
 
@@ -102,7 +100,7 @@ class Account {
 
                     this->accountBalance = 0 ;
 
-                    cout << "Invalid Your amout submited is fail .."<< endl;
+                    std::cout << "Invalid Your amout submited is fail .."<< std::endl;
                 }
 
 
@@ -120,7 +118,7 @@ class Account {
 
                 }else{
 
-                   cout << "Invalid deposit amount\n";
+                   std::cout << "Invalid deposit amount\n";
 
                 }
 
@@ -147,13 +145,13 @@ class SavingAccount : public Account {
        double interestRate; 
         double minimumBalance;
     public :
-                SavingAccount (string holderName , ll accountNumber , double accountbalance , double interestRate , double minimumBalance ) : Account (holderName , accountNumber , accountbalance),
+                SavingAccount (std::string holderName , ll accountNumber , double accountbalance , double interestRate , double minimumBalance ) : Account (holderName , accountNumber , accountbalance),
                 
                 interestRate (interestRate < 0  ? 0 : interestRate ) ,
                   minimumBalance (minimumBalance)
 
                 {
-                          cout << "Saving Account Created\n";      
+                          std::cout << "Saving Account Created\n";      
                 }
 
             void withdraw(double amount) override {
@@ -167,7 +165,7 @@ class SavingAccount : public Account {
                    }
                         else {
 
-                            cout << "Minimum balance must be maintained\n";
+                            std::cout << "Minimum balance must be maintained\n";
 
                         }
 
@@ -182,12 +180,12 @@ class SavingAccount : public Account {
 
 
 
-                    cout << "Account Holder Name: "      << accountHolderName << endl;
-                    cout << "Account Number     : "      << accountNumber << endl;
-                    cout << "Account Balance    : "      << (getBalance())  << endl;
-                    cout << "InterestRateAmount : "      << interestRateAmount << endl;
-                    cout << "Minimum Balance    : "      << minimumBalance << endl;
-                    cout << "Total Balance Amount : "      << (getBalance() + interestRateAmount) << endl;
+                    std::cout << "Account Holder Name: "      << accountHolderName << std::endl;
+                    std::cout << "Account Number     : "      << accountNumber << std::endl;
+                    std::cout << "Account Balance    : "      << (getBalance())  << std::endl;
+                    std::cout << "InterestRateAmount : "      << interestRateAmount << std::endl;
+                    std::cout << "Minimum Balance    : "      << minimumBalance << std::endl;
+                    std::cout << "Total Balance Amount : "      << (getBalance() + interestRateAmount) << std::endl;
 
 
             }
@@ -207,12 +205,12 @@ class CurrentAccount : public Account {
         double overdraftLimit ;
     public : 
 
-         CurrentAccount(string holderName , ll accountNumber , double accountbalance , double transactionFee , double overdraftLimit) : Account(holderName , accountNumber , accountbalance),
+         CurrentAccount(std::string holderName , ll accountNumber , double accountbalance , double transactionFee , double overdraftLimit) : Account(holderName , accountNumber , accountbalance),
          transactionFee(transactionFee < 0 ? 0 : transactionFee ),
          overdraftLimit(overdraftLimit < 0 ? 0 : overdraftLimit)  {
  
 
-                 cout << "CurrentAccount is created ..." << endl;
+                 std::cout << "CurrentAccount is created ..." << std::endl;
         
 
          }
@@ -227,7 +225,7 @@ class CurrentAccount : public Account {
 
                  }else {
 
-                            cout << "Overdraft limit exceeded\n";
+                            std::cout << "Overdraft limit exceeded\n";
                             
 
                  }
@@ -239,10 +237,10 @@ class CurrentAccount : public Account {
 
 
 
-
-                    cout << "Account Holder Name: "      << accountHolderName << endl;
-                    cout << "Account Number     : "      << accountNumber << endl;
-                    cout << "Account Balance    : "      << (getBalance())  << endl;
+                    
+                    std::cout << "Account Holder Name: "      << accountHolderName << std::endl;
+                    std::cout << "Account Number     : "      << accountNumber << std::endl;
+                    std::cout << "Account Balance    : "      << (getBalance())  << std::endl;
 
 
             }
@@ -255,24 +253,24 @@ class CurrentAccount : public Account {
 void Menu()  {
 
 
-                    cout << "\n========== BANK MANAGEMENT SYSTEM ==========\n";
+                    std::cout << "\n========== BANK MANAGEMENT SYSTEM ==========" << std::endl;
 
-                    cout << "1. Create Saving Account\n";
-                    cout << "2. Create Current Account\n";
+                    std::cout << "1. Create Saving Account\n";
+                    std::cout << "2. Create Current Account\n";
 
-                    cout << "3. Deposit Money\n";
-                    cout << "4. Withdraw Money\n";
+                    std::cout << "3. Deposit Money\n";
+                    std::cout << "4. Withdraw Money\n";
 
-                    cout << "5. Search Account\n";
-                    cout << "6. Display Account Details\n";
-                    cout << "7. Display All Accounts\n";
+                    std::cout << "5. Search Account\n";
+                    std::cout << "6. Display Account Details\n";
+                    std::cout << "7. Display All Accounts\n";
 
-                    cout << "8. Transfer Money\n";
+                    std::cout << "8. Transfer Money\n";
 
-                    cout << "9. Exit\n";
+                    std::cout << "9. Exit\n";
 
                 
-                    cout << "\nEnter Your Choice : ";
+                    std::cout << "\nEnter Your Choice : ";
 
                  
 
@@ -281,7 +279,7 @@ void Menu()  {
 
 int main () {
  
-    vector<Account *> accounts;
+    std::vector<Account *> accounts;
 
     while(true) {
         
@@ -289,36 +287,36 @@ int main () {
 
             int choice ;
 
-            cin>>choice;
+            std::cin>>choice;
 
             if(choice == 1) {
 
-                     string accountHolderName;
+                     std::string accountHolderName;
 
-                        cin.ignore();
+                        std::cin.ignore();
 
-                        cout << "Enter Account Holder Name: ";
-                        getline(cin, accountHolderName);
+                        std::cout << "Enter Account Holder Name: ";
+                        std::getline(std::cin, accountHolderName);
 
                         ll accountNumber;
 
-                        cout << "Enter Account Number: ";
-                        cin >> accountNumber;
+                        std::cout << "Enter Account Number: ";
+                        std::cin >> accountNumber;
 
                         double accountBalance;
 
-                        cout << "Enter Initial Balance: ";
-                        cin >> accountBalance;
+                        std::cout << "Enter Initial Balance: ";
+                        std::cin >> accountBalance;
 
                         double interestRate;
 
-                        cout << "Enter Interest Rate: ";
-                        cin >> interestRate;
+                        std::cout << "Enter Interest Rate: ";
+                        std::cin >> interestRate;
 
                         double minimumBalance;
 
-                        cout << "Enter Minimum Balance: ";
-                        cin >> minimumBalance;
+                        std::cout << "Enter Minimum Balance: ";
+                        std::cin >> minimumBalance;
 
 
                     accounts.push_back(new SavingAccount (
@@ -332,39 +330,39 @@ int main () {
              
                         ));
                      
-                        cout << "Size = " << accounts.size() << endl;
+                        std::cout << "Size = " << accounts.size() << std::endl;
 
             }
 
             else if(choice == 2) {
 
 
-                      string accountHolderName;
+                     std::string accountHolderName;
 
-                        cin.ignore();
+                        std::cin.ignore();
 
-                        cout << "Enter Account Holder Name: ";
-                        getline(cin, accountHolderName);
+                        std::cout << "Enter Account Holder Name: ";
+                        std::getline(std::cin, accountHolderName);
 
                         ll accountNumber;
 
-                        cout << "Enter Account Number: ";
-                        cin >> accountNumber;
+                        std::cout << "Enter Account Number: ";
+                        std::cin >> accountNumber;
 
                         double accountBalance;
 
-                        cout << "Enter Initial Balance: ";
-                        cin >> accountBalance;
+                        std::cout << "Enter Initial Balance: ";
+                        std::cin >> accountBalance;
 
                         double transactionFee;
 
-                        cout << "Enter transactionFee: ";
-                        cin >> transactionFee;
+                        std::cout << "Enter transactionFee: ";
+                        std::cin >> transactionFee;
 
                         double overdraftLimit;
 
-                        cout << "Enter overdraftLimit: ";
-                        cin >> overdraftLimit;
+                        std::cout << "Enter overdraftLimit: ";
+                        std::cin >> overdraftLimit;
 
 
 
@@ -385,25 +383,23 @@ int main () {
 
 
             }
-     
-            else if(choice == 7) {
+             else if(choice == 7) {
 
 
-                 cout << "Inside Choice 7\n";
+                     std::cout << "Inside Choice 7\n";
 
-    cout << "Size = "
-         << accounts.size()
-         << endl;
+                       std::cout << "Size = "
+                        << accounts.size()
+                           << std::endl;
 
 
-                    for(Account *acc : accounts) {
+                   for(int i = 0 ; i < accounts.size() ; i++) {
 
-                            acc->display();
+                          accounts[i]->display();
 
-                            cout << endl;
+                   }
 
-                    }
-
+                   break;
 
             }
             else if (choice == 9) {
