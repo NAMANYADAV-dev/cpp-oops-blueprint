@@ -2,6 +2,7 @@
 #include<vector>
 #include<string>
 #include<cctype>
+#include<memory>
 using ll = long long ;
 
 class Account {
@@ -136,6 +137,14 @@ class Account {
             }
 
 
+            ll numberAccount () const {
+
+
+                 return accountNumber;
+
+            }
+
+
 };
 
 
@@ -178,7 +187,7 @@ class SavingAccount : public Account {
                     double interestRateAmount = ((getBalance())*interestRate)/100;
 
 
-
+                    std::cout << "\n========== SAVING BANK ACCOUNT  ==========" << std::endl;  
 
                     std::cout << "Account Holder Name: "      << accountHolderName << std::endl;
                     std::cout << "Account Number     : "      << accountNumber << std::endl;
@@ -237,6 +246,7 @@ class CurrentAccount : public Account {
 
 
 
+                std::cout << "\n========== CURRENT BANK ACCOUNT  ==========" << std::endl;
                     
                     std::cout << "Account Holder Name: "      << accountHolderName << std::endl;
                     std::cout << "Account Number     : "      << accountNumber << std::endl;
@@ -279,7 +289,7 @@ void Menu()  {
 
 int main () {
  
-    std::vector<Account *> accounts;
+    std::vector<std::unique_ptr<Account>> accounts;
 
     while(true) {
         
@@ -319,7 +329,7 @@ int main () {
                         std::cin >> minimumBalance;
 
 
-                    accounts.push_back(new SavingAccount (
+                    accounts.push_back(std::make_unique<SavingAccount> (
 
                             accountHolderName,
                             accountNumber,
@@ -367,7 +377,7 @@ int main () {
 
 
 
-                        accounts.push_back(new CurrentAccount(
+                        accounts.push_back(std::make_unique<CurrentAccount>(
 
                                     accountHolderName,
                                     accountNumber,
@@ -382,6 +392,43 @@ int main () {
 
 
 
+            }else if (choice == 3) {
+
+                   ll accountNumber;
+                   std::cout << "Enter Account Number: ";
+                  std::cin >> accountNumber;
+                  double amount;   
+
+                  bool found = false;
+
+
+                  for(auto& acc : accounts) {
+
+                        if(acc->numberAccount() == accountNumber){
+
+                                std::cout << "Enter your deposit amount ...\n";
+
+                                std:: cin>> amount;
+
+                                acc->deposit(amount) ;
+
+                                std::cout << "Successfully Deposited! New Balance: " << acc->getBalance()<< std::endl;
+
+                                found = true;
+
+                                break;
+                                
+
+                        }
+
+                  }
+
+             if(!found) {
+
+                std:: cout << "Error: Account Number Not Found!" << std::endl;
+
+             }     
+            
             }
              else if(choice == 7) {
 
@@ -393,9 +440,9 @@ int main () {
                            << std::endl;
 
 
-                   for(int i = 0 ; i < accounts.size() ; i++) {
+                   for(const auto& acc : accounts) {
 
-                          accounts[i]->display();
+                                acc->display();
 
                    }
 
