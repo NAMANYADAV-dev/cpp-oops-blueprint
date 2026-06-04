@@ -275,11 +275,7 @@ void Menu()  {
                     std::cout << "6. Display Account Details\n";
                     std::cout << "7. Display All Accounts\n";
 
-                    std::cout << "8. Transfer Money\n";
-
-                    std::cout << "9. Exit\n";
-
-                
+                    std::cout << "8. Exit\n";
                     std::cout << "\nEnter Your Choice : ";
 
                  
@@ -429,7 +425,118 @@ int main () {
 
              }     
             
-            }
+            }   
+
+
+              else if(choice == 4){
+
+                   ll accountNumber;
+                   std::cout << "Enter Account Number: ";
+                   std::cin >> accountNumber;
+                   double amount;   
+
+                  bool found = false;
+
+
+                  for(auto& acc : accounts) {
+
+                        if(acc->numberAccount() == accountNumber){
+
+                                std::cout << "Enter your withdraw amount ...\n";
+
+                                std:: cin>> amount;
+
+                                acc->withdraw(amount) ;
+
+                                std::cout << "Successfully withdraw New Balance: " << acc->getBalance()<< std::endl;
+
+                                found = true;
+
+                                break;
+                                
+
+                        }
+
+                  }
+
+             if(!found) {
+
+                std:: cout << "Error: Account Number Not Found!" << std::endl;
+
+             }     
+
+              }
+
+
+              else if(choice == 5) {
+
+                    ll accountNumber;
+                    std::cout << "Enter Account Number: ";
+                    std::cin >> accountNumber;  
+                    bool found = false;
+
+
+                  for(auto& acc : accounts) {
+
+                        if(acc->numberAccount() == accountNumber){
+
+
+                                std::cout << "Successfully Found Your account... "<< std::endl;
+
+                                found = true;
+
+                                break;
+                                
+
+                        }
+
+                  }
+
+             if(!found) {
+
+                std:: cout << "Error: Account Number Not Found!" << std::endl;
+
+                }     
+
+
+
+                }
+                  else if(choice == 6) {
+
+                       ll accountNumber;
+                       std::cout << "Enter Account Number: ";
+                       std::cin >> accountNumber;
+                        bool found = false;
+
+
+                  for(auto& acc : accounts) {
+
+                        if(acc->numberAccount() == accountNumber){
+
+
+                                std::cout << "Successfully Found Your account... "<< std::endl;
+
+                                acc->display();
+
+                                found = true;
+
+                                break;
+                                
+
+                        }
+
+                  }
+
+             if(!found) {
+
+                std:: cout << "Error: Account Number Not Found!" << std::endl;
+
+                }     
+
+                  }
+ 
+
+
              else if(choice == 7) {
 
 
@@ -438,18 +545,27 @@ int main () {
                        std::cout << "Size = "
                         << accounts.size()
                            << std::endl;
+                        bool found = false;    
+
 
 
                    for(const auto& acc : accounts) {
 
                                 acc->display();
-
+                                found = true;
                    }
 
-                   break;
+                   
+                   if(!found) {
+                       
+                       std::cout << "No account founded ...\n";
+                       
+                    }
+                    
+                    break;
 
             }
-            else if (choice == 9) {
+            else if (choice == 8) {
 
                     break;
 
