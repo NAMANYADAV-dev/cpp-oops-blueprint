@@ -170,6 +170,87 @@ class LibraryItem  {
 
 };
 
+class Book : public LibraryItem {
+
+        public :
+
+           Book(std:: string bookId , std::string bookName , std::string authorName , std:: string category , ll availableCopies) : LibraryItem(bookId , bookName , authorName , category , availableCopies ) {
+
+                  std:: cout << "Book details is loaded successfully ...\n";
+
+           }
+
+
+         void displayBookDetail() override {
+
+        std::cout << "\n===== BOOK DETAILS =====\n";
+
+                printBookDetail();
+
+         }
+
+};
+
+
+class Member {
+
+
+        private:
+
+                ll memberId;
+                std::string memberName;
+                std::string emailMember;
+
+        public :
+
+                Member(ll memberId , std::string memberName , std::string emailMember ){
+
+                           if(memberId > 0) {
+
+                                 this->memberId = memberId ;
+
+                        }else{
+
+                                this->memberId =  0 ;
+                                std:: cout << "write correct id number ...\n";
+
+                        }
+
+
+                        this->memberName = memberName ;
+
+                        this->emailMember = emailMember;
+
+                }
+
+
+
+                void displayMemberDetail()  const {
+
+
+                        std:: cout << "Member ID : " << memberId << std::endl;
+                        std:: cout << "Member Name : " << memberName << std::endl;
+                        std:: cout << "Member Email: " << emailMember << std::endl;
+
+
+                }
+
+                ll getMemberId() const {
+
+                        return memberId;
+
+                }
+
+
+
+                std::string getMemberName() const {
+
+                        return memberName;
+
+                }
+
+};
+
 int main () {
 
 
