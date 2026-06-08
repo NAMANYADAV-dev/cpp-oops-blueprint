@@ -1,4 +1,5 @@
 #include<iostream>
+#include<vector>
 #include<string>
 #include<cctype>
 using ll = long long ;
@@ -150,18 +151,39 @@ class LibraryItem  {
 
         }
 
-        virtual void displayBookDetail() = 0 ;
+        virtual void displayBookDetail() const  = 0 ;
 
 
-        std::string getBookId () const{
+        const std::string& getBookId () const{
 
             return bookId;
 
         }
 
-        std::string getBookName() const {
+       const  std::string& getBookName() const {
 
             return bookName;
+
+        }
+
+        ll getAvailableCopies() const {
+
+                return availableCopies ;
+
+        }
+
+
+        void setAvailablesCopies(ll copies) {
+
+                if(copies >= 0) {
+
+                        availableCopies = copies;
+
+                }else{
+
+                        availableCopies = 0 ;
+
+                }
 
         }
 
@@ -181,7 +203,7 @@ class Book : public LibraryItem {
            }
 
 
-         void displayBookDetail() override {
+         void displayBookDetail() const  override {
 
         std::cout << "\n===== BOOK DETAILS =====\n";
 
@@ -203,23 +225,9 @@ class Member {
 
         public :
 
-                Member(ll memberId , std::string memberName , std::string emailMember ){
+                Member(ll memberId , std::string memberName , std::string emailMember ) : memberId(memberId > 0 ? memberId : 0 )  , memberName(memberName) , emailMember (emailMember)  {
 
-                           if(memberId > 0) {
-
-                                 this->memberId = memberId ;
-
-                        }else{
-
-                                this->memberId =  0 ;
-                                std:: cout << "write correct id number ...\n";
-
-                        }
-
-
-                        this->memberName = memberName ;
-
-                        this->emailMember = emailMember;
+                        std:: cout << "Member created successfully ...\n";
 
                 }
 
@@ -250,6 +258,189 @@ class Member {
                 }
 
 };
+
+
+class IssuedBook {
+
+
+        private :
+
+                std:: string bookId;
+
+                ll memberId;
+
+
+        
+        public:
+        
+        
+                IssuedBook(const std:: string& bookId , ll memberId) : bookId(bookId) , memberId(memberId) {} 
+
+              const   std:: string&  getBookId() const {
+
+                        return bookId;
+
+                }
+
+                ll getMemberId () const {
+
+
+                        return memberId ;
+                  
+                }        
+
+};
+
+
+class Library{
+
+
+        private :
+
+              std::vector<Book> books;
+              std::vector<Member>members;
+              std::vector<IssuedBook>issuedBooks;
+
+
+        public:
+
+
+                void addBook(const Book& book){
+
+                        books.push_back(book);
+
+                        std:: cout << "Book added successfully...\n";
+
+                }
+
+
+
+                void addMember(const Member& memeber){
+
+                        members.push_back(memeber);
+
+                        std:: cout << "Member added successfully...\n";
+
+                }
+
+
+                void displayAllBooks()  const {
+
+                        if(books.empty()) {
+
+                                std:: cout << "No book available ...\n";
+
+                                return ;
+
+
+                        }
+
+                        for( const auto& book : books) {
+
+                                book.displayBookDetail();
+                                std:: cout << '\n';
+
+                        }
+
+
+                }
+
+
+                void displayAllMembers()  const {
+
+                        if(members.empty()) {
+
+                                std:: cout << "No Member available...\n";
+
+                        }
+
+                        for( const auto&member : members) {
+
+                                member.displayMemberDetail();
+
+                                std:: cout << '\n';
+
+                        }
+
+
+                }
+
+
+                void searchBookById(const std::string& id) const  {
+
+                        for(const auto& book : books) {
+
+                              if(book.getBookId() == id) {
+
+                                 std:: cout << "Book Found \n";
+                                 book.displayBookDetail();
+                                 return;
+                              }  
+
+                        }
+
+                        std:: cout << "Book Not Found...\n";
+
+                }
+
+
+
+                void searchMemberById (const ll& id) const  {
+
+                        for( const auto& member : members) {
+
+                             if(member.getMemberId() == id ) {
+
+                                 std:: cout << "Member Found ...\n";
+                                 member.displayMemberDetail();
+                                return ;        
+                                 
+
+                             }
+
+                        }
+
+                        std:: cout << "Member Not Found...\n";
+
+                }
+
+
+                void addIssueBook(const IssuedBook& issueBook) {
+
+                        issuedBooks.push_back(issueBook);
+
+                        std:: cout << "IssueBook successfully Added ...\n";
+
+                }
+
+
+                void displayIssueBook() const {
+
+                        if(issuedBooks.empty()){
+
+                                std:: cout << "No Issued Books Found...\n";
+                                return ;
+
+                        }
+
+                        for(const auto& issueBook : issuedBooks) {
+
+                                std:: cout << issueBook.getBookId() << " :  " << issueBook.getMemberId() << std::endl;
+
+
+                        }
+                
+
+                }
+
+
+};
+
+
+
+
+
+
 
 int main () {
 
