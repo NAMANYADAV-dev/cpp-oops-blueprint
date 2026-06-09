@@ -423,26 +423,267 @@ class Library{
 
                         }
 
-                        for(const auto& issueBook : issuedBooks) {
+                        std::string bookName = "";
+                        std::string memberName = "";
 
-                                std:: cout << issueBook.getBookId() << " :  " << issueBook.getMemberId() << std::endl;
+                        for( auto& issueBook : issuedBooks) {
+
+                               for( auto& book : books) {
+
+                                        if(book.getBookId() == issueBook.getBookId()) {
 
 
+                                                bookName = book.getBookName();
+
+
+                                        }
+
+                               }
+
+
+                               for(const auto& member : members) {
+
+                                        if(member.getMemberId() == issueBook.getMemberId()) {
+
+
+                                                memberName = member.getMemberName();
+
+
+                                        }
+
+                               }
+
+                               std::cout << "\n=====================\n";
+       
+                                       std::cout << "Book ID     : " << issueBook.getBookId() << '\n';
+       
+                                       std::cout << "Book Name   : "  << bookName  << '\n';
+       
+                                       std::cout << "Member ID   : " << issueBook.getMemberId()  << '\n';
+       
+                                       std::cout << "Member Name : " << memberName << '\n';
+       
+                                       std::cout << "=====================\n";
+                       
+                               
                         }
-                
+
+
 
                 }
+
+
+                void issueBook(const std::string& bookId , ll memberId); 
+
+
+                void returnBook(const std::string& bookId , ll memberId); 
 
 
 };
 
 
+void Library::issueBook(const std:: string& bookId , ll memberId) {
+
+       Book *foundBook  = nullptr ;
+
+        for ( auto& book : books) {
+
+              if( book.getBookId() == bookId) {
+
+                 foundBook  = &book;
+
+                 break;
+
+              }
+
+        }
+
+        if(foundBook == nullptr) {
+
+                std:: cout << "Book Not exits...\n";
+                return ; 
+
+        }
 
 
+        std::cout << "Available Copies... : " << foundBook->getAvailableCopies() << std:: endl;
+
+
+         if(foundBook->getAvailableCopies() <= 0) {
+
+                        std::cout << "No Copies Available...\n";
+                        return;
+        }
+
+
+        Member *foundMember = nullptr;
+
+        for( auto&member : members) {
+
+                if(member.getMemberId() == memberId) {
+
+
+                        foundMember = &member;
+                        break;
+
+                }
+
+        }
+
+        if(foundMember == nullptr) {
+
+                std:: cout << "Member Not exits ...\n";
+                return;
+
+        }
+
+        
+        for(const auto& issue : issuedBooks) {
+
+        if(  issue.getBookId() == bookId && issue.getMemberId() == memberId ) {
+
+                std::cout << "Book already issued to this member...\n";
+                return;
+        }
+}
+
+        IssuedBook issue(bookId , memberId) ;
+
+        issuedBooks.emplace_back(issue);
+
+        foundBook->setAvailablesCopies(
+
+                foundBook->getAvailableCopies() - 1 
+        );
+
+
+        std::cout << "Book Issued Successfully...\n";
+
+
+        std::cout << "Book " << bookId  << " issued to Member " << memberId << " successfully.\n";
+
+        std::cout << "Remaining Copies : "  << foundBook->getAvailableCopies() << std::endl;
+} 
+
+
+
+void Library::returnBook(const std::string& bookId , ll memberId) {
+
+        size_t issueIndex = issuedBooks.size();
+
+        for(size_t i = 0 ; i < issuedBooks.size() ; i ++)  {
+
+             if(issuedBooks[i].getBookId() == bookId && issuedBooks[i].getMemberId() == memberId) {
+
+
+                        issueIndex = i ;
+
+                        break;
+
+
+             }
+
+        }
+
+
+        if(issueIndex == issuedBooks.size()) {
+
+                std:: cout << "Issued Record Not Found\n";
+                return;
+
+        } 
+
+
+        Book *foundBook = nullptr ;
+
+
+        for(auto& book : books) {
+
+                if(book.getBookId() == bookId) {
+
+                        foundBook = &book;
+
+                        break;
+
+                }
+
+        }
+
+        if(foundBook == nullptr) {
+
+                std:: cout << "Book Not Found...\n";
+
+                return ;
+        }
+
+
+       foundBook->setAvailablesCopies( foundBook->getAvailableCopies() + 1) ;
+
+       issuedBooks.erase(
+
+                issuedBooks.begin() + issueIndex 
+
+       );
+
+       std::cout << "Book Returned Successfully...\n";
+
+}
 
 
 
 int main () {
+
+        Library l1;
+        
+
+        Book b1( "101" , "CPP" , "Bjarne" , "Programming" ,  5) ; 
+        Book b2( "102" , "DSA" , "Abdul" , "Programming" ,  3) ; 
+
+        l1.addBook(b1);
+        l1.addBook(b2);
+
+
+        // Member 
+
+        Member m1(1 , "Naman" , "naman@300yadgmail.com");
+        Member m2(2 , "shivam" , "shivam@3001yadgmail.com");
+
+
+        l1.addMember(m1);
+        l1.addMember(m2);
+
+        std:: cout << "\n ===== ALL BOOKS =====\n";
+
+        l1.displayAllBooks() ; 
+
+        std:: cout << "\n ===== ALL MEMBERS =====\n";
+
+        l1.displayAllMembers() ; 
+        
+        std::cout << "\n===== SEARCH BOOK =====\n";
+        l1.searchBookById("101");
+
+        std::cout << "\n===== SEARCH MEMBER =====\n";
+        l1.searchMemberById(1);
+
+        std::cout << "\n===== ISSUE BOOK =====\n";
+        l1.issueBook("101", 1);
+
+        std::cout << "\n===== ISSUED BOOKS =====\n";
+        l1.displayIssueBook();
+
+        std::cout << "\n===== RETURN BOOK =====\n";
+        l1.returnBook("101", 1);
+
+        std::cout << "\n===== ISSUED BOOKS AFTER RETURN =====\n";
+        l1.displayIssueBook();
+
+
+
+
+
+        return 0 ; 
+
 
 
 }
