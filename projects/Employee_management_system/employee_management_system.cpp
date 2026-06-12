@@ -1,21 +1,39 @@
 #include<iostream>
 #include<string>
+#include<vector>
+#include<memory>
 using ll = long long ; 
 
 class Employee{
 
 
+
+
+        
+        
         protected:
+        
+        int employeeId ; 
+        
+        std:: string name;
+        
+        int age ; 
+        
+        ll salary;
+        
+        
+        
+                                void showDetails() const {
 
-                int employeeId ; 
 
-                std:: string name;
+                                std:: cout <<  "ID : " << getEmployeeId() << std :: endl;
+                                std:: cout <<  "Name : " << getName() << std :: endl;
+                                std:: cout <<  "Age : " << getAge() << std :: endl;
+                                std:: cout <<  "Salary : " << getSalary() << std :: endl;
 
-                int age ; 
 
-                ll salary;
 
-    
+                                }
     
 
         public : 
@@ -80,19 +98,19 @@ class Employee{
                 }
 
 
-                void showDetails() const {
+                void setAge (int age) {
 
+                        if(age > 0) {
 
-                    std:: cout <<  "ID : " << getEmployeeId() << std :: endl;
-                    std:: cout <<  "Name : " << getName() << std :: endl;
-                    std:: cout <<  "Age : " << getAge() << std :: endl;
-                    std:: cout <<  "Salary : " << getSalary() << std :: endl;
+                                this->age = age;
 
+                        }else {
 
+                                std:: cout << "Invalid Age...\n";
+
+                        }
 
                 }
-
-
 
                 virtual ~Employee ()  = default ; 
 
@@ -107,7 +125,7 @@ class Manager : public Employee {
      private : 
 
 
-            std:: string departementName ;
+            std:: string departmentName ;
 
             int teamSize ;
 
@@ -117,13 +135,13 @@ class Manager : public Employee {
      public :
 
 
-            Manager( int employeeId , const std:: string& name , int age , ll salary ,const std:: string& departementName , int teamsize ) :  Employee ( employeeId , name , age , salary ) , departementName ( departementName ) , teamSize( teamsize > 0 ? teamsize : 0 ) { } 
+            Manager( int employeeId , const std:: string& name , int age , ll salary ,const std:: string& departmentName , int teamsize ) :  Employee ( employeeId , name , age , salary ) , departmentName ( departmentName ) , teamSize( teamsize > 0 ? teamsize : 0 ) { } 
             
             
 
              const std:: string& getDepartementName() const {
 
-                        return departementName;
+                        return departmentName;
 
              }
 
@@ -196,8 +214,128 @@ class Developer : public Employee {
 };
 
 
+class EmployeeManager {
+
+
+        private :
+
+                std::vector<std::unique_ptr<Employee>>employees;
+
+                static int totalEmployees;
+
+
+        public :
+
+               static int getTotalEmployee()  {
+
+                        return totalEmployees;
+
+                }
+            
+
+
+                void addEmployee(std::unique_ptr<Employee>emp) {
+
+                        employees.push_back(std::move(emp));
+                        totalEmployees++;
+
+                }
+
+
+
+                void searchEmployeeById( int id) const {
+
+                        bool found = false;
+
+                        for( const auto& emp : employees) {
+
+                                if(emp->getEmployeeId() == id) {
+
+                                emp->print();
+                                found = true;
+
+                                break;
+
+
+                                }
+
+                        }
+
+                        if( !found) {
+        
+                            std:: cout << "Employee Not Found...\n" ; 
+        
+                        }
+                        
+                }
+
+
+
+                void removeEmployee();
+
+                
+                void displayAllEmployee() const {
+
+                        if(employees.empty()){
+
+                                std:: cout << "No empolyee...\n";
+                                return ;
+
+                        }
+
+
+                       
+                        for(const auto& employee : employees) {
+
+                                employee->print();
+
+
+                        }
+
+                }
+
+
+
+           
+
+
+};
+
+int EmployeeManager::totalEmployees = 0 ; 
+
 int main () {
 
+       EmployeeManager e1;
 
+
+
+       e1.addEmployee(
+        std::make_unique<Manager>(101 ,"Naman" , 30 , 100000 , "HR" , 10 )
+       );
+       
+       e1.addEmployee(
+        std::make_unique<Manager>(102 ,"Shivam" , 30 , 100000 , "HR" , 10 )
+       );
+
+
+       
+       
+       
+       e1.addEmployee(
+               std::make_unique<Developer>(103 ,"Vivek" , 30 , 100000 , "HR" , 10 )
+        );
+        
+        
+        e1.addEmployee(
+                std::make_unique<Developer>(104 ,"Rahul" , 30 , 100000 , "HR" , 10 )
+        );
+
+
+        e1.displayAllEmployee();
+        
+        
+       std:: cout << " Total Employee : " << EmployeeManager::getTotalEmployee()<< std:: endl; 
+
+       return 0 ; 
 
 }
