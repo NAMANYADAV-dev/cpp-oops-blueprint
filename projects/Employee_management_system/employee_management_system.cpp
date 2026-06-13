@@ -39,7 +39,7 @@ class Employee{
         public : 
 
 
-                Employee( int employeeId , const std:: string& name , int age , ll salary ) : employeeId(employeeId > 0  ? employeeId : 0 ) , name(name) , age ( age > 0 ? age : 0) , salary (salary > 0 ? salary  : 0 ) { } 
+                Employee( int employeeId , const std:: string& name , int age , ll salary ) : employeeId(employeeId > 0  ? employeeId : 0 ) , name(!name.empty() ? name : "Unknown") , age ( age > 0 ? age : 0) , salary (salary > 0 ? salary  : 0 ) { } 
 
 
                 virtual void print () const = 0 ; 
@@ -68,6 +68,21 @@ class Employee{
                 ll getSalary () const {
 
                         return salary; 
+
+                }
+
+                void setEmployeeId(int id) {
+
+                        if(id >= 0) {
+
+                                this->employeeId = id;
+
+                        }else{
+
+
+                                std:: cout << "Invalid Id...\n";
+
+                        }
 
                 }
 
@@ -138,12 +153,43 @@ class Manager : public Employee {
             Manager( int employeeId , const std:: string& name , int age , ll salary ,const std:: string& departmentName , int teamsize ) :  Employee ( employeeId , name , age , salary ) , departmentName ( departmentName ) , teamSize( teamsize > 0 ? teamsize : 0 ) { } 
             
             
+                void setDepartmentName(const std::string& name) {
+
+                        if(!name.empty()){
+
+                                this->departmentName = name;
+
+                        }else{
+
+                               std::cout << "Department name cannot be empty.\n";
+
+                        }
+
+                }
+
+                void setTeamSize(int size) {
+
+                        if(size >= 0){
+
+                                this->teamSize= size;
+
+                        }else{
+
+                                std::cout << "Team size must be positive.\n";
+
+                        }
+
+                }
+
+                
+
 
              const std:: string& getDepartementName() const {
 
                         return departmentName;
 
              }
+
 
 
              int getTeamSize() const {
@@ -183,7 +229,37 @@ class Developer : public Employee {
 
 
             Developer(int employeeId , const std:: string& name , int age , ll salary ,  const std:: string& programmingLanguage , int experience) : Employee (employeeId , name ,age , salary ) , programmingLanguage(programmingLanguage) , experience(experience > 0 ? experience : 0 ) {}
-            
+
+
+            void setProgrammingLanguage(const std::string& programming) {
+
+                        if(!programming.empty()){
+
+                                this->programmingLanguage = programming;
+
+                        }else{
+
+                                std::cout << "Programming language cannot be empty.\n";
+
+                        }
+
+            }
+
+
+            void setExperience(int experience) {
+
+                 if(experience >= 0) {
+
+                        this->experience = experience;
+
+                 }else {
+
+                        std::cout << "Experience must be positive...\n";
+
+                 }
+
+            }
+
             
             const std:: string& getProgrammingLanguage() const  {
 
@@ -271,7 +347,63 @@ class EmployeeManager {
 
 
 
-                void removeEmployee();
+
+                void removeEmployee(int id ) {
+
+                        bool found = false;
+
+
+                        for(auto it=employees.begin() ; it!=employees.end() ; ++it) {
+
+                                if((*it)->getEmployeeId() == id) {
+
+                                        employees.erase(it);
+                                        totalEmployees--;
+                                        found = true;
+                                        break;
+
+                                }
+
+                        }
+
+
+                        if(!found){
+
+                                std:: cout << "Employee Not Found...\n";
+
+                        }
+
+                }
+
+
+                void updateEmployee(int id , const std::string& name , int newAge , ll salary) {
+
+                        bool found = false;
+
+                         for(auto& emp : employees) {
+
+                                if(emp->getEmployeeId() == id) {
+
+                                        found = true;
+
+                                        emp->setName(name);
+                                        emp->setAge(newAge);
+                                        emp->setSalary(salary);
+                                        
+                                        return ; 
+
+                                }
+
+                         }       
+
+                         if(!found) {
+
+                            std:: cout << "Employee Not Found...\n";
+
+                         }
+
+
+                }
 
                 
                 void displayAllEmployee() const {
@@ -332,9 +464,18 @@ int main () {
 
 
         e1.displayAllEmployee();
+        std:: cout << " Total Employee : " << EmployeeManager::getTotalEmployee()<< std:: endl; 
+        
+        e1.removeEmployee(104);
         
         
-       std:: cout << " Total Employee : " << EmployeeManager::getTotalEmployee()<< std:: endl; 
+        e1.displayAllEmployee();
+        std:: cout << " Total Employee : " << EmployeeManager::getTotalEmployee()<< std:: endl; 
+        
+        e1.updateEmployee(103 , "sumit" , 18 , 300000);
+        
+        e1.displayAllEmployee();
+
 
        return 0 ; 
 
