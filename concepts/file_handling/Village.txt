@@ -1,2 +1,1 @@
-Naman = 18
-Shivam = 19 
+Naman
